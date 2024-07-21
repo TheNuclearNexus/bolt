@@ -970,6 +970,9 @@ class EscapeAnalysisResolver:
         commands: List[AstCommand] = []
 
         for command in node.commands:
+            if isinstance(command, AstError):
+                continue
+
             stack: List[AstCommand] = [command]
 
             while command.arguments and isinstance(
