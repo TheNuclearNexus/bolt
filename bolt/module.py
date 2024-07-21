@@ -35,7 +35,8 @@ from typing import (
     cast,
 )
 
-from beet import BubbleException, Cache, DataPack, ResourcePack, TextFile, TextFileBase, NamespaceFileScope
+from beet import BubbleException, Cache, DataPack, ResourcePack, TextFile, TextFileBase 
+from beet.library.base import NamespaceFileScope
 from beet.core.utils import JsonDict, extra_field, import_from_string, required_field
 from mecha import (
     AstCacheBackend,
