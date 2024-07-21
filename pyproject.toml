@@ -24,7 +24,6 @@ include = ["bolt/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.10"
 beet = ">=0.104"
-mecha = {path = "../mecha", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
@@ -33,6 +32,7 @@ isort = "^5.13.2"
 python-semantic-release = "^7.33.3"
 pytest-insta = "^0.3.0"
 lectern = ">=0.31.0"
+mecha = {path = "../mecha", develop = true}
 
 [tool.poetry.plugins.beet]
 commands = "bolt.commands"
