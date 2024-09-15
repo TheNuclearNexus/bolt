@@ -35,8 +35,15 @@ from typing import (
     cast,
 )
 
-from beet import BubbleException, Cache, DataPack, ResourcePack, TextFile, TextFileBase 
-from beet.library.base import NamespaceFileScope
+from beet import (
+    BubbleException,
+    Cache,
+    DataPack,
+    NamespaceFileScope,
+    ResourcePack,
+    TextFile,
+    TextFileBase,
+)
 from beet.core.utils import JsonDict, extra_field, import_from_string, required_field
 from mecha import (
     AstCacheBackend,
@@ -83,14 +90,20 @@ class SilentCompilationInterrupt(DiagnosticCollection):
 class Module(TextFile):
     """Class representing a bolt module."""
 
-    scope: ClassVar[NamespaceFileScope] = ("modules",)
+    scope: ClassVar[NamespaceFileScope] = {
+        0: ("modules",),
+        48: ("module",),
+    }
     extension: ClassVar[str] = ".bolt"
 
 
 class AssetModule(TextFile):
     """Class representing a bolt module in a resource pack."""
 
-    scope: ClassVar[NamespaceFileScope] = ("modules",)
+    scope: ClassVar[NamespaceFileScope] = {
+        0: ("modules",),
+        34: ("module",),
+    }
     extension: ClassVar[str] = ".bolt"
 
 
