@@ -2221,10 +2221,11 @@ class DeferredRootBacktracker:
 
     def resolve_deferred(self, node: AstRoot, stream: TokenStream) -> AstRoot:
         should_replace = False
-        commands: List[AstCommand] = []
+        commands: List[AstCommand|AstError] = []
 
         for command in node.commands:
             if isinstance(command, AstError):
+                commands.append(command)
                 continue 
 
             if command.arguments and isinstance(
