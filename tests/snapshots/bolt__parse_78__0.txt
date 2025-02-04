@@ -1,6 +1,14 @@
 def f(a, b):
     def g(c):
         a + b
+#>ERROR  Identifier "c" is not defined.
+# line 4, column 5
+#      3 |          a + b
+#      4 |      c
+#        :      ^
+#      5 |  g()
+# Notes:
+#   - Expected assignment but got newline '\n'.
     c
 #>ERROR  Identifier "g" is not defined.
 # line 5, column 1

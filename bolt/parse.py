@@ -967,10 +967,11 @@ class EscapeAnalysisResolver:
 
     def resolve(self, node: AstRoot) -> AstRoot:
         should_replace = False
-        commands: List[AstCommand] = []
+        commands: List[AstCommand|AstError] = []
 
         for command in node.commands:
             if isinstance(command, AstError):
+                commands.append(command)
                 continue
 
             stack: List[AstCommand] = [command]
@@ -1102,10 +1103,11 @@ class DecoratorResolver:
         stack: List[AstDecorator] = []
 
         changed = False
-        result: List[AstCommand] = []
+        result: List[AstCommand|AstError] = []
 
         for command in node.commands:
             if isinstance(command, AstError):
+                result.append(command)
                 continue
 
             if isinstance(command, AstStatement) and isinstance(
@@ -1190,10 +1192,11 @@ class VanillaReturnHandler:
             return node
 
         changed = False
-        result: List[AstCommand] = []
+        result: List[AstCommand|AstError] = []
 
         for command in node.commands:
             if isinstance(command, AstError):
+                result.append(command)
                 continue
 
             if command.identifier == "return:value" and command.arguments:
@@ -1230,13 +1233,14 @@ class IfElseLoweringParser:
         node: AstRoot = self.parser(stream)
 
         changed = False
-        result: List[AstCommand] = []
+        result: List[AstError|AstCommand] = []
 
         commands = iter(node.commands)
         previous = ""
 
         for command in commands:
             if isinstance(command, AstError):
+                result.append(command)
                 continue
 
             if command.identifier in ["elif:condition:body", "else:body"]:
@@ -1485,6 +1489,7 @@ def parse_function_signature(stream: TokenStream) -> AstFunctionSignature:
                         exc = InvalidSyntax(
                             "Expected at least one named argument after bare variadic marker."
                         )
+                        
                         raise set_location(exc, argument)
 
             return_type_annotation = None
@@ -1774,12 +1779,13 @@ class ProcMacroExpansion:
 
     def __call__(self, stream: TokenStream) -> AstRoot:
         should_replace = False
-        commands: List[AstCommand] = []
+        commands: List[AstCommand|AstError] = []
 
         node: AstRoot = self.parser(stream)
 
         for command in node.commands:
             if isinstance(command, AstError):
+                commands.append(command)
                 continue
 
             stack: List[AstCommand] = [command]
@@ -2096,10 +2102,11 @@ class DocstringHandler:
         node: AstRoot = self.parser(stream)
 
         changed = False
-        result: List[AstCommand] = []
+        result: List[AstCommand|AstError] = []
 
         for command in node.commands:
             if isinstance(command, AstError):
+                result.append(command)
                 continue
 
             if (
